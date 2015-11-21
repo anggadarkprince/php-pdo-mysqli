@@ -3,14 +3,18 @@ try {
     require_once 'includes/pdo_connect.php';
     // Set up prepared statements transfer from one account to another
     $amount = 200;
-    $payer = 'John White';
-    $payee = 'Jane Black';
+    $payee = 'John White';
+    $payer = 'Jane Black';
     $debit = 'UPDATE savings SET balance = balance - :amount WHERE name = :payer';
+    $getBalance = 'SELECT balance FROM savings WHERE name = :payer';
     $credit = 'UPDATE savings SET balance = balance + :amount WHERE name = :payee';
 
     $pay = $db->prepare($debit);
     $pay->bindParam(':amount', $amount);
     $pay->bindParam(':payer', $payer);
+
+    $check = $db->prepare($getBalance);
+    $check->bindParam(':payer', $payer);
 
     $receive = $db->prepare($credit);
     $receive->bindParam(':amount', $amount);
@@ -23,15 +27,25 @@ try {
         $db->rollBack();
         $error = "Transaction failed: could not update $payer's balance.";
     } else {
-        $receive->execute();
-        if (!$receive->rowCount()) {
+        // Check the remaining balance in the payer's account
+        $check->execute();
+        $bal = $check->fetchColumn();
+        $check->closeCursor();
+
+        // Roll back the transaction if the balance is negative
+        if ($bal < 0) {
             $db->rollBack();
-            $error = "Transaction failed: could not update $payee's balance.";
+            $error = "Transaction failed: insufficient funds in $payer's account.";
         } else {
-            $db->commit();
+            $receive->execute();
+            if (!$receive->rowCount()) {
+                $db->rollBack();
+                $error = "Transaction failed: could not update $payee's balance.";
+            } else {
+                $db->commit();
+            }
         }
     }
-
 } catch (Exception $e) {
     $error = $e->getMessage();
 }
