@@ -1,0 +1,111 @@
+body {
+    font-family: sans-serif;
+}
+
+.container {
+    width: 980px;
+    margin: auto;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    background-color: #fff;
+}
+
+table thead {
+    background-color: #fff;
+    border-bottom: 1px solid #ccc;
+    text-align: left;
+}
+
+table td, table th {
+    padding: 8px;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #fdfdfd;
+}
+
+table tbody tr:nth-child(odd) {
+    background-color: #f8f8f8;
+}
+
+.button {
+    padding: 7px 10px;
+    margin-bottom: 10px;
+    display: inline-block;
+    text-decoration: none;
+    background-color: green;
+    color: white;
+    border-radius: 3px;
+    border: none;
+}
+
+.button.red {
+    background-color: red;
+}
+
+.button:hover {
+    background-color: darkgreen;
+}
+
+.button.red:hover {
+    background-color: darkred;
+}
+
+.pull-right {
+    float: right;
+}
+
+.pull-left {
+    float: left;
+}
+
+.filter {
+    margin-bottom: 15px;
+    display: block;
+}
+
+.clearfix {
+    clear: both;
+}
+
+.pagination {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.control {
+    margin-bottom: 20px;
+}
+
+.control label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.control input, .control textarea, .control select {
+    padding: 5px;
+    min-width: 400px;
+}
+
+.alert {
+    display: block;
+    padding: 10px;
+    color: white;
+    border-radius: 3px;
+    margin: 10px 0 20px;
+}
+
+.alert.alert-success {
+    background-color: green;
+}
+
+.alert.alert-failed {
+    background-color: red;
+}
+
+form {
+    display: inline-block;
+}
